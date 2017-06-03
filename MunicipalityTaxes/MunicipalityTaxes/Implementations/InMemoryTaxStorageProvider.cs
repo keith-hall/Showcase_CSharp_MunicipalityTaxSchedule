@@ -35,8 +35,7 @@ namespace MunicipalityTaxes
         public MunicipalityTaxDetails GetTax (string municipality, DateTime at)
         {
             var results = database.Where(tax => tax.MunicipalitySchedule.Municipality == municipality);
-            results = results.Where(tax => tax.MunicipalitySchedule.IsApplicable(at));
-            return FindTaxSchedule(MunicipalityTaxSchedule.MostApplicable(results.Select(r => r.MunicipalitySchedule))); // not the most efficient way to do it ever, but more generic
+            return FindTaxSchedule(MunicipalityTaxSchedule.MostApplicable(results.Select(r => r.MunicipalitySchedule), at)); // not the most efficient way to do it ever, but more generic
         }
 
         internal MunicipalityTaxDetails FindTaxSchedule (MunicipalityTaxSchedule tax)

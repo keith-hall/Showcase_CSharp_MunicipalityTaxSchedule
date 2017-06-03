@@ -52,10 +52,10 @@ namespace MunicipalityTaxes
             return false;
         }
 
-        internal static MunicipalityTaxSchedule MostApplicable(IEnumerable<MunicipalityTaxSchedule> schedules)
+        internal static MunicipalityTaxSchedule MostApplicable(IEnumerable<MunicipalityTaxSchedule> schedules, DateTime at)
         {
-            var results = schedules.OrderByDescending(tax => tax.ScheduleType); // the enum is ordered so that Daily comes after Yearly etc. so Daily overrides all other schedule frequencies
-            return results.FirstOrDefault();
+            var results = schedules.Where(s => s.IsApplicable(at)).GroupBy(s => s.ScheduleType).OrderByDescending(g => g.Key); // the enum is ordered so that Daily comes after Yearly etc. so Daily overrides all other schedule frequencies
+            return results.First().Take(2).SingleOrDefault(); // some enumerable providers don't optimize Single properly
         }
     }
 }
