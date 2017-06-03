@@ -51,5 +51,11 @@ namespace MunicipalityTaxes
             }
             return false;
         }
+
+        internal static MunicipalityTaxSchedule MostApplicable(IEnumerable<MunicipalityTaxSchedule> schedules)
+        {
+            var results = schedules.OrderByDescending(tax => tax.ScheduleType); // the enum is ordered so that Daily comes after Yearly etc. so Daily overrides all other schedule frequencies
+            return results.FirstOrDefault();
+        }
     }
 }
