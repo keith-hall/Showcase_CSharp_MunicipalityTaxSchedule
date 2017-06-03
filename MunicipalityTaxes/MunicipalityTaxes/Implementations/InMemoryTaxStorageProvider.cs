@@ -35,9 +35,7 @@ namespace MunicipalityTaxes
         public MunicipalityTaxDetails GetTax (string municipality, DateTime at)
         {
             var results = database.Where(tax => tax.MunicipalitySchedule.Municipality == municipality);
-            results = results.Where(tax => tax.MunicipalitySchedule.IsApplicable(at));
-            results = results.OrderByDescending(tax => tax.MunicipalitySchedule.ScheduleType); // the enum is ordered so that Daily comes after Yearly etc. so Daily overrides all other schedule frequencies
-            return results.FirstOrDefault();
+            return FindTaxSchedule(MunicipalityTaxSchedule.MostApplicable(results.Select(r => r.MunicipalitySchedule), at)); // not the most efficient way to do it ever, but more generic
         }
 
         internal MunicipalityTaxDetails FindTaxSchedule (MunicipalityTaxSchedule tax)
