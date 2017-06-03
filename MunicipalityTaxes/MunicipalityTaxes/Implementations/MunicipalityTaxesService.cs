@@ -27,7 +27,7 @@ namespace MunicipalityTaxes
             throw new NotImplementedException();
         }
 
-        public TaxScheduleInsertionActionResult InsertTaxScheduleDetails (MunicipalityTaxDetails tax)
+        public TaxScheduleActionResult<TaxScheduleInsertionResult> InsertTaxScheduleDetails (MunicipalityTaxDetails tax)
         {
             logger.Trace("{0} request received with parameters: {1}: {2}", nameof(InsertTaxScheduleDetails), nameof(tax), tax?.DebuggerDisplay);
             if (tax == null)
@@ -73,7 +73,7 @@ namespace MunicipalityTaxes
                     Debugger.Break();
 #endif
             }
-            var response = new TaxScheduleInsertionActionResult(checkValidity, insertResult);
+            var response = new TaxScheduleActionResult<TaxScheduleInsertionResult>(checkValidity, insertResult);
             logger.Trace("Returning {0} response: {1}", nameof(InsertTaxScheduleDetails), response.ToString());
             return response;
         }
