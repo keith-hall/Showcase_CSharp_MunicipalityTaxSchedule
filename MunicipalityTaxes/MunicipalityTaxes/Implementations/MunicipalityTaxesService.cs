@@ -9,20 +9,11 @@ namespace MunicipalityTaxes
 {
     public class MunicipalityTaxesService : IMunicipalityTaxesService
     {
-        public string GetData (int value)
-        {
-            return string.Format("You entered: {0}", value);
-        }
-
-        public CompositeType GetDataUsingDataContract (CompositeType composite)
+        public MunicipalityTaxDetails GetDataUsingDataContract (MunicipalityTaxDetails composite)
         {
             if (composite == null)
             {
-                throw new ArgumentNullException("composite");
-            }
-            if (composite.BoolValue)
-            {
-                composite.StringValue += "Suffix";
+                throw new ArgumentNullException(nameof(composite));
             }
             return composite;
         }
