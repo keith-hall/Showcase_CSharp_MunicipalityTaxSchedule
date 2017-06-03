@@ -1,7 +1,8 @@
 
-MunicipalityTaxes/MunicipalityTaxes/obj/
-MunicipalityTaxes/MunicipalityTaxes/bin/
+obj/
+bin/
 
 *.user
 
-MunicipalityTaxes/\.vs/MunicipalityTaxes/v15/\.suo
+\.suo
+MunicipalityTaxes/packages/

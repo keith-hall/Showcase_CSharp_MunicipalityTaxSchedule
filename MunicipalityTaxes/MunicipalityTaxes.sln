@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MunicipalityTaxes", "MunicipalityTaxes\MunicipalityTaxes.csproj", "{596DC646-52FF-40EA-B04C-00FB9444F98A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaxingTests", "TaxingTests\TaxingTests.csproj", "{AF47AEA4-72B5-40ED-9AEA-F474A7DFF49A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{596DC646-52FF-40EA-B04C-00FB9444F98A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{596DC646-52FF-40EA-B04C-00FB9444F98A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{596DC646-52FF-40EA-B04C-00FB9444F98A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF47AEA4-72B5-40ED-9AEA-F474A7DFF49A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF47AEA4-72B5-40ED-9AEA-F474A7DFF49A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF47AEA4-72B5-40ED-9AEA-F474A7DFF49A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF47AEA4-72B5-40ED-9AEA-F474A7DFF49A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
