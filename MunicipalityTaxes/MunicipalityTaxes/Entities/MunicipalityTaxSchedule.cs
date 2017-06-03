@@ -57,5 +57,14 @@ namespace MunicipalityTaxes
             var results = schedules.Where(s => s.IsApplicable(at)).GroupBy(s => s.ScheduleType).OrderByDescending(g => g.Key); // the enum is ordered so that Daily comes after Yearly etc. so Daily overrides all other schedule frequencies
             return results.First().Take(2).SingleOrDefault(); // some enumerable providers don't optimize Single properly
         }
+
+        public override bool Equals (object obj)
+        {
+            var compare = obj as MunicipalityTaxSchedule;
+            if (compare == null)
+                return base.Equals(obj);
+            return this.Municipality == compare.Municipality && this.ScheduleType == compare.ScheduleType && this.ScheduleBeginDate == compare.ScheduleBeginDate;
+            // TODO: also override GetHashCode?
+        }
     }
 }

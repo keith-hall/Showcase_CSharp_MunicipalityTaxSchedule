@@ -9,6 +9,12 @@ using NLog;
 
 namespace MunicipalityTaxes
 {
+    [
+    ServiceBehavior(
+        ConcurrencyMode = ConcurrencyMode.Multiple,
+        InstanceContextMode = InstanceContextMode.Single
+    )
+    ]
     public class MunicipalityTaxesService : IMunicipalityTaxesService
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
@@ -22,9 +28,25 @@ namespace MunicipalityTaxes
             TaxStorage = new InMemoryTaxStorageProvider();
         }
 
-        public float? GetTax (string Muncipality, DateTime at)
+        public double? GetTax (string muncipality, DateTime at)
         {
-            throw new NotImplementedException();
+            logger.Trace("{0} request received with parameters: {1}: {2}, {2}: {3}", nameof(GetTax), nameof(muncipality), muncipality, nameof(at), at);
+            double? taxAmount = null;
+            try
+            {
+                var tax = TaxStorage.GetTax(muncipality, at);
+                taxAmount = tax?.TaxAmount;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Exception occurred in {0} method", nameof(GetTax));
+#if DEBUG
+                if (Debugger.IsAttached)
+                    Debugger.Break();
+#endif
+            }
+            logger.Trace("Returning {0} response: {1}", nameof(GetTax), taxAmount);
+            return taxAmount;
         }
 
         public TaxScheduleActionResult<TaxScheduleInsertionResult> InsertTaxScheduleDetails (MunicipalityTaxDetails tax)

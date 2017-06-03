@@ -20,7 +20,7 @@ namespace MunicipalityTaxes
         /// <param name="at">The date on which to get the taxes for</param>
         /// <returns>The tax that applies/applied for the given <paramref name="Muncipality"/> on the given date, or <code>null</code> if no schedules exist that match the given input parameters</returns>
         [OperationContract]
-        float? GetTax (string Muncipality, DateTime at);
+        double? GetTax (string Muncipality, DateTime at);
     }
 
 }

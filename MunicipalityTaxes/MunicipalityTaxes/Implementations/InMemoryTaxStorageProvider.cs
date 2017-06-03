@@ -40,7 +40,7 @@ namespace MunicipalityTaxes
 
         internal MunicipalityTaxDetails FindTaxSchedule (MunicipalityTaxSchedule tax)
         {
-            return database.FirstOrDefault(tax.Equals);
+            return database.FirstOrDefault(t => t.MunicipalitySchedule.Equals(tax));
         }
 
         public bool TaxScheduleExists (MunicipalityTaxSchedule tax)
