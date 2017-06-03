@@ -11,7 +11,7 @@ namespace MunicipalityTaxes
     public interface IMunicipalityTaxesService
     {
         [OperationContract]
-        TaxScheduleActionResult<TaxScheduleInsertionResult> InsertTaxScheduleDetails (MunicipalityTaxDetails tax);
+        TaxScheduleInsertionActionResult InsertTaxScheduleDetails (MunicipalityTaxDetails tax);
 
         /// <summary>
         /// Get the specific municipality tax that applies on the given date

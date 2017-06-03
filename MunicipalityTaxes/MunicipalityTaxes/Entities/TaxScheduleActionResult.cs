@@ -8,22 +8,22 @@ using System.Threading.Tasks;
 namespace MunicipalityTaxes
 {
     [DataContract]
-    public class TaxScheduleActionResult<T>
+    public class TaxScheduleInsertionActionResult
     {
         [DataMember]
-        public TaxScheduleValidationResult Validity { get; }
+        public TaxScheduleValidationResult Validity;// { get; }
         [DataMember]
-        public T ActionResult { get; }
+        public TaxScheduleInsertionResult ActionResult;// { get; }
 
-        public TaxScheduleActionResult(TaxScheduleValidationResult validityStatus, T actionResult)
+        public TaxScheduleInsertionActionResult (TaxScheduleValidationResult validityStatus, TaxScheduleInsertionResult actionResult)
         {
             Validity = validityStatus;
             ActionResult = actionResult;
         }
 
-        public new string ToString()
+        public new string ToString ()
         {
-            return $"Validity: {Validity}, {typeof(T).Name}: {ActionResult}";
+            return $"Validity: {Validity}, {nameof(TaxScheduleInsertionResult)}: {ActionResult}";
         }
     }
 
