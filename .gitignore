@@ -1,3 +1,7 @@
 
 MunicipalityTaxes/MunicipalityTaxes/obj/
 MunicipalityTaxes/MunicipalityTaxes/bin/
+
+*.user
+
+MunicipalityTaxes/\.vs/MunicipalityTaxes/v15/\.suo
