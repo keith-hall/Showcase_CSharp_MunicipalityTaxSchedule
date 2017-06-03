@@ -11,9 +11,15 @@ namespace MunicipalityTaxes
     public class TaxScheduleActionResult<T>
     {
         [DataMember]
-        public TaxScheduleValidationResult Validity;
+        public TaxScheduleValidationResult Validity { get; }
         [DataMember]
-        public T ActionResult;
+        public T ActionResult { get; }
+
+        public TaxScheduleActionResult(TaxScheduleValidationResult validityStatus, T actionResult)
+        {
+            Validity = validityStatus;
+            ActionResult = actionResult;
+        }
 
         public new string ToString()
         {

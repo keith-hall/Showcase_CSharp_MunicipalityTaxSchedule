@@ -12,15 +12,15 @@ namespace TaxingTests
         {
             var validator = new TaxScheduleValidator();
 
-            var tax = new MunicipalityTaxSchedule() { Municipality = "", ScheduleBeginDate = new DateTime(2017, 06, 03), ScheduleType = ScheduleFrequency.Daily };
+            var tax = new MunicipalityTaxSchedule(municipality: "", begin: new DateTime(2017, 06, 03), frequency: ScheduleFrequency.Daily);
             var status = validator.ValidateTaxSchedule(tax);
             Assert.AreEqual(TaxScheduleValidationResult.MunicipalityInvalid, status);
 
-            tax = new MunicipalityTaxSchedule() { Municipality = "   ", ScheduleBeginDate = new DateTime(2017, 06, 03), ScheduleType = ScheduleFrequency.Daily };
+            tax = new MunicipalityTaxSchedule(municipality: "   ", begin: new DateTime(2017, 06, 03), frequency: ScheduleFrequency.Daily);
             status = validator.ValidateTaxSchedule(tax);
             Assert.AreEqual(TaxScheduleValidationResult.MunicipalityInvalid, status);
 
-            tax = new MunicipalityTaxSchedule() { Municipality = null, ScheduleBeginDate = new DateTime(2017, 06, 03), ScheduleType = ScheduleFrequency.Daily };
+            tax = new MunicipalityTaxSchedule(municipality: null, begin: new DateTime(2017, 06, 03), frequency: ScheduleFrequency.Daily);
             status = validator.ValidateTaxSchedule(tax);
             Assert.AreEqual(TaxScheduleValidationResult.MunicipalityInvalid, status);
         }

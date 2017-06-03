@@ -19,11 +19,17 @@ namespace MunicipalityTaxes
         public MunicipalityTaxesService ()
         {
             TaxValidator = new TaxScheduleValidator();
+            TaxStorage = new InMemoryTaxStorageProvider();
+        }
+
+        public float? GetTax (string Muncipality, DateTime at)
+        {
+            throw new NotImplementedException();
         }
 
         public TaxScheduleActionResult<TaxScheduleInsertionResult> InsertTaxScheduleDetails (MunicipalityTaxDetails tax)
         {
-            logger.Trace("{0} request received with parameters: {1}: {2}", nameof(InsertTaxScheduleDetails), nameof(tax), tax.DebuggerDisplay);
+            logger.Trace("{0} request received with parameters: {1}: {2}", nameof(InsertTaxScheduleDetails), nameof(tax), tax?.DebuggerDisplay);
             if (tax == null)
                 throw new ArgumentNullException(nameof(tax));
             if (tax.MunicipalitySchedule == null)
@@ -38,6 +44,7 @@ namespace MunicipalityTaxes
 
                 if (checkValidity == TaxScheduleValidationResult.Valid)
                 {
+                    // TODO: add validation for TaxAmount
                     try
                     {
                         // NOTE: if multithreaded, there could be a race condition between the existence check and insertion
@@ -66,7 +73,7 @@ namespace MunicipalityTaxes
                     Debugger.Break();
 #endif
             }
-            var response = new TaxScheduleActionResult<TaxScheduleInsertionResult>() { ActionResult = insertResult, Validity = checkValidity };
+            var response = new TaxScheduleActionResult<TaxScheduleInsertionResult>(checkValidity, insertResult);
             logger.Trace("Returning {0} response: {1}", nameof(InsertTaxScheduleDetails), response.ToString());
             return response;
         }

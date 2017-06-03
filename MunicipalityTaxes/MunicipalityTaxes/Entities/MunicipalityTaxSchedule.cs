@@ -12,6 +12,18 @@ namespace MunicipalityTaxes
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class MunicipalityTaxSchedule
     {
+        public MunicipalityTaxSchedule ()
+        {
+            
+        }
+
+        public MunicipalityTaxSchedule (string municipality, ScheduleFrequency frequency, DateTime begin)
+        {
+            this.Municipality = municipality;
+            this.ScheduleType = frequency;
+            this.ScheduleBeginDate = begin;
+        }
+
         [DataMember]
         public string Municipality;
         [DataMember]
@@ -20,5 +32,24 @@ namespace MunicipalityTaxes
         public DateTime ScheduleBeginDate;
 
         internal string DebuggerDisplay { get { return $"{GetType().Name}: {Municipality}, {ScheduleType}, {ScheduleBeginDate:yyyy.MM.dd}"; } }
+
+        internal bool IsApplicable (DateTime date)
+        {
+            if (date < this.ScheduleBeginDate)
+                return false;
+
+            switch (this.ScheduleType)
+            {
+                case ScheduleFrequency.Daily:
+                    return date >= this.ScheduleBeginDate && date < this.ScheduleBeginDate.AddDays(1);
+                case ScheduleFrequency.Weekly:
+                    return date >= this.ScheduleBeginDate && date < this.ScheduleBeginDate.AddDays(7);
+                case ScheduleFrequency.Monthly:
+                    return date >= this.ScheduleBeginDate && date < this.ScheduleBeginDate.AddMonths(1);
+                case ScheduleFrequency.Yearly:
+                    return date >= this.ScheduleBeginDate && date < this.ScheduleBeginDate.AddYears(1);
+            }
+            return false;
+        }
     }
 }

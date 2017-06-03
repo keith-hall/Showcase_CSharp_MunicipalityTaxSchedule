@@ -52,6 +52,7 @@
     <Compile Include="Entities\ScheduleFrequency.cs" />
     <Compile Include="Entities\TaxScheduleActionResult.cs" />
     <Compile Include="Entities\TaxScheduleValidationResult.cs" />
+    <Compile Include="Implementations\InMemoryTaxStorageProvider.cs" />
     <Compile Include="Implementations\TaxScheduleValidator.cs" />
     <Compile Include="Interfaces\IMunicipalityTaxesService.cs" />
     <Compile Include="Interfaces\ITaxScheduleValidator.cs" />

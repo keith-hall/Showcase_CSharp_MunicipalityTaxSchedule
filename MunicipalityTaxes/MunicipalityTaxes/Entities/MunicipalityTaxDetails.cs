@@ -17,6 +17,6 @@ namespace MunicipalityTaxes
         [DataMember]
         public double TaxAmount;
 
-        internal string DebuggerDisplay { get { return MunicipalitySchedule.DebuggerDisplay + $", {TaxAmount}"; } }
+        internal string DebuggerDisplay { get { return MunicipalitySchedule?.DebuggerDisplay + $", {TaxAmount}"; } }
     }
 }
