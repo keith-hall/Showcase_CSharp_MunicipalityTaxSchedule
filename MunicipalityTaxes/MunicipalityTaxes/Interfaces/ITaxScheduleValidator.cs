@@ -9,5 +9,6 @@ namespace MunicipalityTaxes
     interface ITaxScheduleValidator
     {
         TaxScheduleValidationResult ValidateTaxSchedule (MunicipalityTaxSchedule taxSchedule);
+        TaxScheduleValidationResult ValidateTaxDetails (MunicipalityTaxDetails tax);
     }
 }

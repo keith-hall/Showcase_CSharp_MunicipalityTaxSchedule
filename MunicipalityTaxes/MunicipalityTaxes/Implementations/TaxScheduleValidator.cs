@@ -9,6 +9,13 @@ namespace MunicipalityTaxes
 {
     class TaxScheduleValidator : ITaxScheduleValidator
     {
+        public TaxScheduleValidationResult ValidateTaxDetails (MunicipalityTaxDetails tax)
+        {
+            if (tax.TaxAmount < 0)
+                return TaxScheduleValidationResult.TaxAmountInvalid;
+            return ValidateTaxSchedule(tax.MunicipalitySchedule);
+        }
+
         public TaxScheduleValidationResult ValidateTaxSchedule (MunicipalityTaxSchedule tax)
         {
             if (string.IsNullOrWhiteSpace(tax.Municipality))

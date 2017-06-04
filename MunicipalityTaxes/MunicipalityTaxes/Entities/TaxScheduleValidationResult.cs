@@ -18,5 +18,7 @@ namespace MunicipalityTaxes
         DateUnsuitableForSchedule,
         [EnumMember]
         MunicipalityInvalid,
+        [EnumMember]
+        TaxAmountInvalid,
     }
 }

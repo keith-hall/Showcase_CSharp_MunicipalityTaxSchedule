@@ -87,5 +87,29 @@ namespace TaxingTests
             Assert.AreEqual(TaxScheduleValidationResult.DateUnsuitableForSchedule, status);
             #endregion
         }
+
+        [TestMethod]
+        public void TaxAmountChecks ()
+        {
+            var validator = new TaxScheduleValidator();
+
+            var schedule = new MunicipalityTaxSchedule(municipality: "Test", begin: new DateTime(2017, 06, 03), frequency: ScheduleFrequency.Daily);
+            var tax = new MunicipalityTaxDetails() { MunicipalitySchedule = schedule, TaxAmount = 0.1 };
+            var status = validator.ValidateTaxDetails(tax);
+            Assert.AreEqual(TaxScheduleValidationResult.Valid, status);
+
+            tax.TaxAmount = 0;
+            status = validator.ValidateTaxDetails(tax);
+            Assert.AreEqual(TaxScheduleValidationResult.Valid, status);
+
+            tax.TaxAmount = -0.1;
+            status = validator.ValidateTaxDetails(tax);
+            Assert.AreEqual(TaxScheduleValidationResult.TaxAmountInvalid, status);
+
+            schedule = new MunicipalityTaxSchedule(municipality: null, begin: new DateTime(2017, 06, 03), frequency: ScheduleFrequency.Daily);
+            tax = new MunicipalityTaxDetails() { MunicipalitySchedule = schedule, TaxAmount = 0.1 };
+            status = validator.ValidateTaxDetails(tax);
+            Assert.AreEqual(TaxScheduleValidationResult.MunicipalityInvalid, status);
+        }
     }
 }

@@ -61,12 +61,11 @@ namespace MunicipalityTaxes
             var checkValidity = TaxScheduleValidationResult.Unknown;
             try
             {
-                checkValidity = TaxValidator.ValidateTaxSchedule(tax.MunicipalitySchedule);
-                logger.Trace("{0} validity status is: {1}", nameof(tax.MunicipalitySchedule), checkValidity);
+                checkValidity = TaxValidator.ValidateTaxDetails(tax);
+                logger.Trace("{0} validity status is: {1}", nameof(tax), checkValidity);
 
                 if (checkValidity == TaxScheduleValidationResult.Valid)
                 {
-                    // TODO: add validation for TaxAmount
                     try
                     {
                         // NOTE: if multithreaded, there could be a race condition between the existence check and insertion
@@ -112,12 +111,11 @@ namespace MunicipalityTaxes
             var checkValidity = TaxScheduleValidationResult.Unknown;
             try
             {
-                checkValidity = TaxValidator.ValidateTaxSchedule(tax.MunicipalitySchedule);
-                logger.Trace("{0} validity status is: {1}", nameof(tax.MunicipalitySchedule), checkValidity);
+                checkValidity = TaxValidator.ValidateTaxDetails(tax);
+                logger.Trace("{0} validity status is: {1}", nameof(tax), checkValidity);
 
                 if (checkValidity == TaxScheduleValidationResult.Valid)
                 {
-                    // TODO: add validation for TaxAmount
                     try
                     {
                         // NOTE: if multithreaded, there could be a race condition between the existence check and updating, maybe some other thread will delete it meanwhile
