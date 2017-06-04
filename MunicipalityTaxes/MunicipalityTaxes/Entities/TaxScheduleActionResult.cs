@@ -11,9 +11,9 @@ namespace MunicipalityTaxes
     public class TaxScheduleActionResult<T>
     {
         [DataMember]
-        public TaxScheduleValidationResult Validity;// { get; }
+        public readonly TaxScheduleValidationResult Validity;
         [DataMember]
-        public T ActionResult;// { get; }
+        public readonly T ActionResult;
 
         public TaxScheduleActionResult(TaxScheduleValidationResult validityStatus, T actionResult)
         {
@@ -36,6 +36,19 @@ namespace MunicipalityTaxes
         Success,
         [EnumMember]
         TaxScheduleAlreadyExists,
+        [EnumMember]
+        UnknownFailure,
+    }
+
+    [DataContract]
+    public enum TaxScheduleUpdateResult
+    {
+        [EnumMember]
+        UpdateNotAttempted,
+        [EnumMember]
+        Success,
+        [EnumMember]
+        ExistingTaxScheduleNotFound,
         [EnumMember]
         UnknownFailure,
     }

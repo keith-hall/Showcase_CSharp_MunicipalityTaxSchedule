@@ -21,6 +21,9 @@ namespace MunicipalityTaxes
         /// <returns>The tax that applies/applied for the given <paramref name="Muncipality"/> on the given date, or <code>null</code> if no schedules exist that match the given input parameters</returns>
         [OperationContract]
         double? GetTax (string Muncipality, DateTime at);
+
+        [OperationContract]
+        TaxScheduleActionResult<TaxScheduleUpdateResult> UpdateTaxScheduleDetails (MunicipalityTaxDetails tax);
     }
 
 }
