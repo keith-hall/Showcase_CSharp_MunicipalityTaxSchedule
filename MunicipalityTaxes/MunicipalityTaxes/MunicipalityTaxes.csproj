@@ -39,6 +39,7 @@
       <HintPath>..\packages\NLog.4.4.10\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
@@ -53,6 +54,7 @@
     <Compile Include="Entities\TaxScheduleActionResult.cs" />
     <Compile Include="Entities\TaxScheduleValidationResult.cs" />
     <Compile Include="Implementations\InMemoryTaxStorageProvider.cs" />
+    <Compile Include="Implementations\PermissiveDateTaxScheduleValidator.cs" />
     <Compile Include="Implementations\TaxScheduleValidator.cs" />
     <Compile Include="Interfaces\IMunicipalityTaxesService.cs" />
     <Compile Include="Interfaces\ITaxScheduleValidator.cs" />

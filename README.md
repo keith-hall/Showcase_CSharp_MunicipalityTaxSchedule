@@ -44,3 +44,13 @@ Bonus tasks (if there is time left):
 
 * Application is deployed as a self-hosted Windows service
 * Update record functionality is exposed via API
+
+## Solution
+
+My original implemention wouldn't allow:
+
+- a Yearly schedule to start not on the first day of January
+- a Monthly schedule to start not on the 1st of the month
+- a Weekly schedule to start not on a Monday
+
+I since realised that maybe that's a constraint that I assumed, as it is not specifically mentioned in the specification, so I decided to add another Tax Validation class that would remove this restriction, and enable it to be configured in the config file.

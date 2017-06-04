@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -26,6 +27,24 @@ namespace MunicipalityTaxes
         {
             TaxValidator = new TaxScheduleValidator();
             TaxStorage = new InMemoryTaxStorageProvider();
+
+            var className = ConfigurationManager.AppSettings["ITaxScheduleValidator"] ?? typeof(TaxScheduleValidator).FullName;
+            var instanceType = Type.GetType(className);
+            //if (instanceType as ITaxScheduleValidator == null)
+            if (instanceType == null || !instanceType.GetInterfaces().Contains(typeof(ITaxScheduleValidator)))
+            {
+                // technically this is an internal error we shouldn't show, but let's say the restriction is only for the public facing API
+                throw new ConfigurationErrorsException($"Type {className} not found or not valid, please check AppSettings configuration key value pair 'ITaxScheduleValidator'");
+            }
+            try
+            {
+                var instance = Activator.CreateInstance(instanceType);
+                TaxValidator = (ITaxScheduleValidator)instance;
+            } catch (Exception ex)
+            {
+                logger.Error(ex, "Unable to construct type {0}", className);
+                throw new ConfigurationErrorsException($"Unable to construct ITaxScheduleValidator Type {className}", ex);
+            }
         }
 
         public double? GetTax (string muncipality, DateTime at)
