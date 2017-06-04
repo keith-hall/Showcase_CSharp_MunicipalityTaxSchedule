@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/MunicipalityTaxes" />
+  <xs:element name="InsertTaxScheduleDetails">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/MunicipalityTaxes" minOccurs="0" name="tax" nillable="true" type="q1:MunicipalityTaxDetails" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InsertTaxScheduleDetailsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/MunicipalityTaxes" minOccurs="0" name="InsertTaxScheduleDetailsResult" nillable="true" type="q2:TaxScheduleActionResultOfTaxScheduleInsertionResult72mr6BFg" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTax">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Muncipality" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="at" type="xs:dateTime" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetTaxResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetTaxResult" nillable="true" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateTaxScheduleDetails">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/MunicipalityTaxes" minOccurs="0" name="tax" nillable="true" type="q3:MunicipalityTaxDetails" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateTaxScheduleDetailsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/MunicipalityTaxes" minOccurs="0" name="UpdateTaxScheduleDetailsResult" nillable="true" type="q4:TaxScheduleActionResultOfTaxScheduleUpdateResult72mr6BFg" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

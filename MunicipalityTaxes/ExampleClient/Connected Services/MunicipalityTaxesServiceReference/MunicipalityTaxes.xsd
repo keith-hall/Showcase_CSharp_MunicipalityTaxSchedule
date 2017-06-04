@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/MunicipalityTaxes" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/MunicipalityTaxes" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="MunicipalityTaxDetails">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MunicipalitySchedule" nillable="true" type="tns:MunicipalityTaxSchedule" />
+      <xs:element minOccurs="0" name="TaxAmount" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MunicipalityTaxDetails" nillable="true" type="tns:MunicipalityTaxDetails" />
+  <xs:complexType name="MunicipalityTaxSchedule">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Municipality" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ScheduleBeginDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ScheduleType" type="tns:ScheduleFrequency" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MunicipalityTaxSchedule" nillable="true" type="tns:MunicipalityTaxSchedule" />
+  <xs:simpleType name="ScheduleFrequency">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Yearly" />
+      <xs:enumeration value="Monthly" />
+      <xs:enumeration value="Weekly" />
+      <xs:enumeration value="Daily" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="ScheduleFrequency" nillable="true" type="tns:ScheduleFrequency" />
+  <xs:complexType name="TaxScheduleActionResultOfTaxScheduleInsertionResult72mr6BFg">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="TaxScheduleActionResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/MunicipalityTaxes" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="TaxScheduleInsertionResult" Namespace="http://schemas.datacontract.org/2004/07/MunicipalityTaxes" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ActionResult" type="tns:TaxScheduleInsertionResult" />
+      <xs:element minOccurs="0" name="Validity" type="tns:TaxScheduleValidationResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TaxScheduleActionResultOfTaxScheduleInsertionResult72mr6BFg" nillable="true" type="tns:TaxScheduleActionResultOfTaxScheduleInsertionResult72mr6BFg" />
+  <xs:simpleType name="TaxScheduleInsertionResult">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="InsertionNotAttempted" />
+      <xs:enumeration value="Success" />
+      <xs:enumeration value="TaxScheduleAlreadyExists" />
+      <xs:enumeration value="UnknownFailure" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="TaxScheduleInsertionResult" nillable="true" type="tns:TaxScheduleInsertionResult" />
+  <xs:simpleType name="TaxScheduleValidationResult">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Unknown" />
+      <xs:enumeration value="Valid" />
+      <xs:enumeration value="DateUnsuitableForSchedule" />
+      <xs:enumeration value="MunicipalityInvalid" />
+      <xs:enumeration value="TaxAmountInvalid" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="TaxScheduleValidationResult" nillable="true" type="tns:TaxScheduleValidationResult" />
+  <xs:complexType name="TaxScheduleActionResultOfTaxScheduleUpdateResult72mr6BFg">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="TaxScheduleActionResultOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/MunicipalityTaxes" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="TaxScheduleUpdateResult" Namespace="http://schemas.datacontract.org/2004/07/MunicipalityTaxes" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ActionResult" type="tns:TaxScheduleUpdateResult" />
+      <xs:element minOccurs="0" name="Validity" type="tns:TaxScheduleValidationResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TaxScheduleActionResultOfTaxScheduleUpdateResult72mr6BFg" nillable="true" type="tns:TaxScheduleActionResultOfTaxScheduleUpdateResult72mr6BFg" />
+  <xs:simpleType name="TaxScheduleUpdateResult">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="UpdateNotAttempted" />
+      <xs:enumeration value="Success" />
+      <xs:enumeration value="ExistingTaxScheduleNotFound" />
+      <xs:enumeration value="UnknownFailure" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="TaxScheduleUpdateResult" nillable="true" type="tns:TaxScheduleUpdateResult" />
+</xs:schema>

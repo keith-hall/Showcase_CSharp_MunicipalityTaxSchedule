@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MunicipalityTaxes", "Munici
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaxingTests", "TaxingTests\TaxingTests.csproj", "{AF47AEA4-72B5-40ED-9AEA-F474A7DFF49A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleClient", "ExampleClient\ExampleClient.csproj", "{5061EC0D-42D4-42C1-B087-DAE0AFD29615}"
+	ProjectSection(ProjectDependencies) = postProject
+		{596DC646-52FF-40EA-B04C-00FB9444F98A} = {596DC646-52FF-40EA-B04C-00FB9444F98A}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +26,10 @@ Global
 		{AF47AEA4-72B5-40ED-9AEA-F474A7DFF49A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF47AEA4-72B5-40ED-9AEA-F474A7DFF49A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF47AEA4-72B5-40ED-9AEA-F474A7DFF49A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5061EC0D-42D4-42C1-B087-DAE0AFD29615}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5061EC0D-42D4-42C1-B087-DAE0AFD29615}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5061EC0D-42D4-42C1-B087-DAE0AFD29615}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5061EC0D-42D4-42C1-B087-DAE0AFD29615}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
