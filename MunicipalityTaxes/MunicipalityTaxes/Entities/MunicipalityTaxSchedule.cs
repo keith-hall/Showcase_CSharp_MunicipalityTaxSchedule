@@ -33,18 +33,23 @@ namespace MunicipalityTaxes
             if (date < this.ScheduleBeginDate)
                 return false;
 
+            DateTime? endDate = null;
             switch (this.ScheduleType)
             {
                 case ScheduleFrequency.Daily:
-                    return date >= this.ScheduleBeginDate && date < this.ScheduleBeginDate.AddDays(1);
+                    endDate = this.ScheduleBeginDate.AddDays(1);
+                    break;
                 case ScheduleFrequency.Weekly:
-                    return date >= this.ScheduleBeginDate && date < this.ScheduleBeginDate.AddDays(7);
+                    endDate = this.ScheduleBeginDate.AddDays(7);
+                    break;
                 case ScheduleFrequency.Monthly:
-                    return date >= this.ScheduleBeginDate && date < this.ScheduleBeginDate.AddMonths(1);
+                    endDate = this.ScheduleBeginDate.AddMonths(1);
+                    break;
                 case ScheduleFrequency.Yearly:
-                    return date >= this.ScheduleBeginDate && date < this.ScheduleBeginDate.AddYears(1);
+                    endDate = this.ScheduleBeginDate.AddYears(1);
+                    break;
             }
-            return false;
+            return endDate.HasValue ? date >= this.ScheduleBeginDate && date < endDate : false;
         }
 
         internal static MunicipalityTaxSchedule MostApplicable(IEnumerable<MunicipalityTaxSchedule> schedules, DateTime at)
