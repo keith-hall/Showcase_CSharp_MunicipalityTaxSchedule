@@ -12,11 +12,6 @@ namespace MunicipalityTaxes
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class MunicipalityTaxSchedule
     {
-        public MunicipalityTaxSchedule ()
-        {
-            
-        }
-
         public MunicipalityTaxSchedule (string municipality, ScheduleFrequency frequency, DateTime begin)
         {
             this.Municipality = municipality;
@@ -25,11 +20,11 @@ namespace MunicipalityTaxes
         }
 
         [DataMember]
-        public string Municipality;
+        public readonly string Municipality;
         [DataMember]
-        public ScheduleFrequency ScheduleType;
+        public readonly ScheduleFrequency ScheduleType;
         [DataMember]
-        public DateTime ScheduleBeginDate;
+        public readonly DateTime ScheduleBeginDate;
 
         internal string DebuggerDisplay { get { return $"{GetType().Name}: {Municipality}, {ScheduleType}, {ScheduleBeginDate:yyyy.MM.dd}"; } }
 
@@ -64,7 +59,13 @@ namespace MunicipalityTaxes
             if (compare == null)
                 return base.Equals(obj);
             return this.Municipality == compare.Municipality && this.ScheduleType == compare.ScheduleType && this.ScheduleBeginDate == compare.ScheduleBeginDate;
-            // TODO: also override GetHashCode?
+        }
+
+        public override int GetHashCode ()
+        {
+            // the fields used to compute the HashCode must be immutable, otherwise the hashcode could change when inside a HashSet etc. and cause problems
+            // https://stackoverflow.com/a/4630550/4473405
+            return new { Municipality, ScheduleType, ScheduleBeginDate }.GetHashCode();
         }
     }
 }
