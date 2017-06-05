@@ -25,25 +25,29 @@ namespace MunicipalityTaxes
 
         public MunicipalityTaxesService ()
         {
-            TaxValidator = new TaxScheduleValidator();
-            TaxStorage = new InMemoryTaxStorageProvider();
+            TaxValidator = ConstructTypeImplementingInterface<ITaxScheduleValidator>("ITaxScheduleValidator", typeof(TaxScheduleValidator));
 
-            var className = ConfigurationManager.AppSettings["ITaxScheduleValidator"] ?? typeof(TaxScheduleValidator).FullName;
-            var instanceType = Type.GetType(className);
-            //if (instanceType as ITaxScheduleValidator == null)
-            if (instanceType == null || !instanceType.GetInterfaces().Contains(typeof(ITaxScheduleValidator)))
+            TaxStorage = ConstructTypeImplementingInterface<ITaxStorage>("ITaxStorage", typeof(InMemoryTaxStorageProvider));
+        }
+
+        internal static T ConstructTypeImplementingInterface<T>(string configSettingName, Type defaultType)
+        {
+            var className = ConfigurationManager.AppSettings[configSettingName];
+            var instanceType = className == null ? defaultType : Type.GetType(className);
+            if (instanceType == null || !instanceType.GetInterfaces().Contains(typeof(T)))
             {
                 // technically this is an internal error we shouldn't show, but let's say the restriction is only for the public facing API
-                throw new ConfigurationErrorsException($"Type {className} not found or not valid, please check AppSettings configuration key value pair 'ITaxScheduleValidator'");
+                throw new ConfigurationErrorsException($"Type {className} not found or not valid, please check AppSettings configuration key value pair '{configSettingName}'");
             }
             try
             {
                 var instance = Activator.CreateInstance(instanceType);
-                TaxValidator = (ITaxScheduleValidator)instance;
-            } catch (Exception ex)
+                return (T)instance;
+            }
+            catch (Exception ex)
             {
                 logger.Error(ex, "Unable to construct type {0}", className);
-                throw new ConfigurationErrorsException($"Unable to construct ITaxScheduleValidator Type {className}", ex);
+                throw new ConfigurationErrorsException($"Unable to construct {typeof(T).Name} Type {className}", ex);
             }
         }
 
@@ -72,7 +76,7 @@ namespace MunicipalityTaxes
         {
             logger.Trace("{0} request received with parameters: {1}: {2}", nameof(InsertTaxScheduleDetails), nameof(tax), tax?.DebuggerDisplay);
             if (tax == null)
-                throw new ArgumentNullException(nameof(tax));
+                throw new ArgumentNullException(nameof(tax)); // argument exceptions are not internal errors, but errors with the caller, so we can throw these
             if (tax.MunicipalitySchedule == null)
                 throw new ArgumentNullException(nameof(tax.MunicipalitySchedule));
             
@@ -101,7 +105,7 @@ namespace MunicipalityTaxes
                     catch (Exception)
                     {
                         insertResult = TaxScheduleInsertionResult.UnknownFailure;
-                        throw;
+                        throw; // this will be re-caught further down
                     }
                 }
             }
@@ -138,7 +142,7 @@ namespace MunicipalityTaxes
                     try
                     {
                         // NOTE: if multithreaded, there could be a race condition between the existence check and updating, maybe some other thread will delete it meanwhile
-                        //       - we could use locks to prevent this
+                        //       - we could use locks or (depending on the provider) a specific transaction type to prevent this
                         if (!TaxStorage.TaxScheduleExists(tax.MunicipalitySchedule))
                         {
                             updateResult = TaxScheduleUpdateResult.ExistingTaxScheduleNotFound;
@@ -152,7 +156,7 @@ namespace MunicipalityTaxes
                     catch (Exception)
                     {
                         updateResult = TaxScheduleUpdateResult.UnknownFailure;
-                        throw;
+                        throw; // this will be re-caught further down
                     }
                 }
             }
