@@ -51,5 +51,25 @@ namespace TaxingTests
             Assert.AreEqual(db.GetTax("Vilnius", new DateTime(2016, 07, 10)).TaxAmount, 0.2);
             Assert.AreEqual(db.GetTax("Vilnius", new DateTime(2016, 03, 16)).TaxAmount, 0.2);
         }
+
+        [TestMethod]
+        public void CanDeleteTaxTest()
+        {
+            var tax1 = new MunicipalityTaxDetails() { MunicipalitySchedule = new MunicipalityTaxSchedule("Vilnius", ScheduleFrequency.Yearly, new DateTime(2016, 01, 01)), TaxAmount = 0.2 };
+            var tax2 = new MunicipalityTaxDetails() { MunicipalitySchedule = new MunicipalityTaxSchedule("Vilnius", ScheduleFrequency.Monthly, new DateTime(2016, 05, 01)), TaxAmount = 0.4 };
+            
+            var db = new InMemoryTaxStorageProvider();
+
+            db.InsertTaxSchedule(tax1);
+            db.InsertTaxSchedule(tax2);
+
+            Assert.IsTrue(db.TaxScheduleExists(tax1.MunicipalitySchedule));
+            Assert.IsTrue(db.TaxScheduleExists(tax2.MunicipalitySchedule));
+
+            db.DeleteTaxSchedule(tax1.MunicipalitySchedule);
+
+            Assert.IsFalse(db.TaxScheduleExists(tax1.MunicipalitySchedule));
+            Assert.IsTrue(db.TaxScheduleExists(tax2.MunicipalitySchedule));
+        }
     }
 }

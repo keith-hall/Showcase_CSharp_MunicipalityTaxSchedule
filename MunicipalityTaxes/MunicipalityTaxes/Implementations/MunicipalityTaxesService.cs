@@ -76,7 +76,7 @@ namespace MunicipalityTaxes
         {
             logger.Trace("{0} request received with parameters: {1}: {2}", nameof(InsertTaxScheduleDetails), nameof(tax), tax?.DebuggerDisplay);
             if (tax == null)
-                throw new ArgumentNullException(nameof(tax));
+                throw new ArgumentNullException(nameof(tax)); // argument exceptions are not internal errors, but errors with the caller, so we can throw these
             if (tax.MunicipalitySchedule == null)
                 throw new ArgumentNullException(nameof(tax.MunicipalitySchedule));
             
@@ -105,7 +105,7 @@ namespace MunicipalityTaxes
                     catch (Exception)
                     {
                         insertResult = TaxScheduleInsertionResult.UnknownFailure;
-                        throw;
+                        throw; // this will be re-caught further down
                     }
                 }
             }
@@ -142,7 +142,7 @@ namespace MunicipalityTaxes
                     try
                     {
                         // NOTE: if multithreaded, there could be a race condition between the existence check and updating, maybe some other thread will delete it meanwhile
-                        //       - we could use locks to prevent this
+                        //       - we could use locks or (depending on the provider) a specific transaction type to prevent this
                         if (!TaxStorage.TaxScheduleExists(tax.MunicipalitySchedule))
                         {
                             updateResult = TaxScheduleUpdateResult.ExistingTaxScheduleNotFound;
@@ -156,7 +156,7 @@ namespace MunicipalityTaxes
                     catch (Exception)
                     {
                         updateResult = TaxScheduleUpdateResult.UnknownFailure;
-                        throw;
+                        throw; // this will be re-caught further down
                     }
                 }
             }
