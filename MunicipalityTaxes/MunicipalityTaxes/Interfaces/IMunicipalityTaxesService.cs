@@ -24,6 +24,9 @@ namespace MunicipalityTaxes
 
         [OperationContract]
         TaxScheduleActionResult<TaxScheduleUpdateResult> UpdateTaxScheduleDetails (MunicipalityTaxDetails tax);
+
+        [OperationContract]
+        BulkImportResponse InsertTaxScheduleDetailsFromFile(string path);
     }
 
 }

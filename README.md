@@ -66,3 +66,128 @@ If you get an `System.ServiceModel.AddressAccessDeniedException` when you try to
 > Please try changing the HTTP port to 8733 or running as Administrator.
 
 Then you can follow the advice at https://stackoverflow.com/a/23781805/4473405 to use `netsh http add urlacl` (as Administrator) with the relevant parameters to ensure you won't need admin privileges to host the service.
+
+### Bulk Import
+
+The bulk import method expects a text file in the following format:
+
+```
+Vilnius|Yearly|2016-01-01|0.2
+Vilnius|Monthly|2016-05-01|0.4
+Vilnius|Daily|2016-01-01|0.1
+Vilnius|Daily|2016-12-25|0.1
+```
+
+i.e. for each tax schedule:
+
+- Muncipality
+- followed by a pipe character
+- followed by the frequency - either "Yearly", "Monthly", "Weekly" or "Daily"
+- followed by a pipe character
+- followed by a date that .NET can parse unambiguously
+- followed by a pipe character
+- followed by the tax amount (a double that .NET can parse)
+- followed by a new line character (CRLF in Windows world)
+
+Note that, when calling the web service manually, WCF Test Client expects .NET format strings i.e. instead of `C:\Users\Keith\Downloads\Vilnius.txt`, it wants `C:\\Users\\Keith\\Downloads\\Vilnius.txt`
+
+It has been designed so that as long as it parses successfully, even if there are failures when inserting the records, it will show the status of each line item. Although, it is worth noting that the first unexpected failure (i.e. not just that the tax record already exists) will cause it to stop attempting to insert the other records.
+
+To give an example, this can be seen when using a file with the contents:
+
+```
+Vilnius|Yearly|2016-01-01|0.2
+Vilnius|Yearly|2016-01-01|0.2
+Vilnius|Monthly|2016-05-01|0.4
+Vilnius|Daily|2016-01-01|0.1
+Vilnius|Daily|2016-12-25|0.1
+```
+
+the response is:
+
+```xml
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Header />
+  <s:Body>
+    <InsertTaxScheduleDetailsFromFileResponse xmlns="http://tempuri.org/">
+      <InsertTaxScheduleDetailsFromFileResult xmlns:a="http://schemas.datacontract.org/2004/07/MunicipalityTaxes" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+        <a:Status>Success</a:Status>
+        <a:lineItems xmlns:b="http://schemas.datacontract.org/2004/07/System.Collections.Generic">
+          <b:KeyValuePairOfMunicipalityTaxDetailsTaxScheduleActionResultOfTaxScheduleInsertionResult72mr6BFgJfw4w7nW>
+            <b:key>
+              <a:MunicipalitySchedule>
+                <a:Municipality>Vilnius</a:Municipality>
+                <a:ScheduleBeginDate>2016-01-01T00:00:00</a:ScheduleBeginDate>
+                <a:ScheduleType>Yearly</a:ScheduleType>
+              </a:MunicipalitySchedule>
+              <a:TaxAmount>0.2</a:TaxAmount>
+            </b:key>
+            <b:value>
+              <a:ActionResult>Success</a:ActionResult>
+              <a:Validity>Valid</a:Validity>
+            </b:value>
+          </b:KeyValuePairOfMunicipalityTaxDetailsTaxScheduleActionResultOfTaxScheduleInsertionResult72mr6BFgJfw4w7nW>
+          <b:KeyValuePairOfMunicipalityTaxDetailsTaxScheduleActionResultOfTaxScheduleInsertionResult72mr6BFgJfw4w7nW>
+            <b:key>
+              <a:MunicipalitySchedule>
+                <a:Municipality>Vilnius</a:Municipality>
+                <a:ScheduleBeginDate>2016-01-01T00:00:00</a:ScheduleBeginDate>
+                <a:ScheduleType>Yearly</a:ScheduleType>
+              </a:MunicipalitySchedule>
+              <a:TaxAmount>0.2</a:TaxAmount>
+            </b:key>
+            <b:value>
+              <a:ActionResult>TaxScheduleAlreadyExists</a:ActionResult>
+              <a:Validity>Valid</a:Validity>
+            </b:value>
+          </b:KeyValuePairOfMunicipalityTaxDetailsTaxScheduleActionResultOfTaxScheduleInsertionResult72mr6BFgJfw4w7nW>
+          <b:KeyValuePairOfMunicipalityTaxDetailsTaxScheduleActionResultOfTaxScheduleInsertionResult72mr6BFgJfw4w7nW>
+            <b:key>
+              <a:MunicipalitySchedule>
+                <a:Municipality>Vilnius</a:Municipality>
+                <a:ScheduleBeginDate>2016-05-01T00:00:00</a:ScheduleBeginDate>
+                <a:ScheduleType>Monthly</a:ScheduleType>
+              </a:MunicipalitySchedule>
+              <a:TaxAmount>0.4</a:TaxAmount>
+            </b:key>
+            <b:value>
+              <a:ActionResult>Success</a:ActionResult>
+              <a:Validity>Valid</a:Validity>
+            </b:value>
+          </b:KeyValuePairOfMunicipalityTaxDetailsTaxScheduleActionResultOfTaxScheduleInsertionResult72mr6BFgJfw4w7nW>
+          <b:KeyValuePairOfMunicipalityTaxDetailsTaxScheduleActionResultOfTaxScheduleInsertionResult72mr6BFgJfw4w7nW>
+            <b:key>
+              <a:MunicipalitySchedule>
+                <a:Municipality>Vilnius</a:Municipality>
+                <a:ScheduleBeginDate>2016-01-01T00:00:00</a:ScheduleBeginDate>
+                <a:ScheduleType>Daily</a:ScheduleType>
+              </a:MunicipalitySchedule>
+              <a:TaxAmount>0.1</a:TaxAmount>
+            </b:key>
+            <b:value>
+              <a:ActionResult>Success</a:ActionResult>
+              <a:Validity>Valid</a:Validity>
+            </b:value>
+          </b:KeyValuePairOfMunicipalityTaxDetailsTaxScheduleActionResultOfTaxScheduleInsertionResult72mr6BFgJfw4w7nW>
+          <b:KeyValuePairOfMunicipalityTaxDetailsTaxScheduleActionResultOfTaxScheduleInsertionResult72mr6BFgJfw4w7nW>
+            <b:key>
+              <a:MunicipalitySchedule>
+                <a:Municipality>Vilnius</a:Municipality>
+                <a:ScheduleBeginDate>2016-12-25T00:00:00</a:ScheduleBeginDate>
+                <a:ScheduleType>Daily</a:ScheduleType>
+              </a:MunicipalitySchedule>
+              <a:TaxAmount>0.1</a:TaxAmount>
+            </b:key>
+            <b:value>
+              <a:ActionResult>Success</a:ActionResult>
+              <a:Validity>Valid</a:Validity>
+            </b:value>
+          </b:KeyValuePairOfMunicipalityTaxDetailsTaxScheduleActionResultOfTaxScheduleInsertionResult72mr6BFgJfw4w7nW>
+        </a:lineItems>
+      </InsertTaxScheduleDetailsFromFileResult>
+    </InsertTaxScheduleDetailsFromFileResponse>
+  </s:Body>
+</s:Envelope>
+```
+
+Of course, in keeping with the requirements, any internal errors like the specifics of parse failures etc. are not shown to the user, but are logged for the service administrators to peruse.
