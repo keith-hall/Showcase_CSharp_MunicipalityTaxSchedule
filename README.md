@@ -59,3 +59,10 @@ I since realised that maybe that's a constraint that I assumed, as it is not spe
 
 Instructions on how to install a Windows Service: https://msdn.microsoft.com/en-us/library/zt39148a(v=vs.110).aspx#BK_Install
 The startup type for this MunicipalityTaxes Windows Service is set to Manual by default, so you'll need to start it manually after installing. :)
+
+The URL for the service is set in the config, and is currently http://localhost:8733/Design_Time_Addresses/MunicipalityTaxes/Service1/mex, as defined at https://github.com/keith-hall/Showcase_CSharp_MunicipalityTaxSchedule/blob/4cda15a87b536a346af33f62e035f646b7bc03ae/MunicipalityTaxes/MunicipalityTaxes/App.config#L25.
+If you get an `System.ServiceModel.AddressAccessDeniedException` when you try to host the WCF service, like:
+
+> Please try changing the HTTP port to 8733 or running as Administrator.
+
+Then you can follow the advice at https://stackoverflow.com/a/23781805/4473405 to use `netsh http add urlacl` (as Administrator) with the relevant parameters to ensure you won't need admin privileges to host the service.
