@@ -19,11 +19,11 @@ namespace MunicipalityTaxes
             this.ScheduleBeginDate = begin;
         }
 
-        [DataMember]
+        [DataMember(IsRequired = true)]
         public readonly string Municipality;
-        [DataMember]
+        [DataMember(IsRequired = true)]
         public readonly ScheduleFrequency ScheduleType;
-        [DataMember]
+        [DataMember(IsRequired = true)]
         public readonly DateTime ScheduleBeginDate;
 
         internal string DebuggerDisplay { get { return $"{GetType().Name}: {Municipality}, {ScheduleType}, {ScheduleBeginDate:yyyy.MM.dd}"; } }
@@ -55,7 +55,7 @@ namespace MunicipalityTaxes
         internal static MunicipalityTaxSchedule MostApplicable(IEnumerable<MunicipalityTaxSchedule> schedules, DateTime at)
         {
             var results = schedules.Where(s => s.IsApplicable(at)).GroupBy(s => s.ScheduleType).OrderByDescending(g => g.Key); // the enum is ordered so that Daily comes after Yearly etc. so Daily overrides all other schedule frequencies
-            return results.FirstOrDefault()?.Take(2).SingleOrDefault(); // some enumerable providers don't optimize Single properly
+            return results.FirstOrDefault()?.Take(2).SingleOrDefault(); // some enumerable providers don't optimize Single properly, hence the Take(2)
         }
 
         public override bool Equals (object obj)

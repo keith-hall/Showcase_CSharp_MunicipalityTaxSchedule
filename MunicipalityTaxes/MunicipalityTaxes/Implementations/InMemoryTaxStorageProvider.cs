@@ -17,6 +17,8 @@ namespace MunicipalityTaxes
 
         public void InsertTaxSchedule (MunicipalityTaxDetails tax)
         {
+            if (tax == null)
+                throw new ArgumentNullException(nameof(tax));
             // double check that the tax doesn't already exist in the database
             // (on a SQL Server DB with primary key / unique index contraints etc. it'd throw an error for us)
             if (TaxScheduleExists(tax.MunicipalitySchedule))
@@ -26,6 +28,8 @@ namespace MunicipalityTaxes
 
         public void DeleteTaxSchedule (MunicipalityTaxSchedule tax)
         {
+            if (tax == null)
+                throw new ArgumentNullException(nameof(tax));
             var existing = FindTaxSchedule(tax);
             if (existing == null)
                 throw new InvalidOperationException($"Tax schedule '{tax.DebuggerDisplay}' not found, unable to delete it.");
@@ -40,6 +44,8 @@ namespace MunicipalityTaxes
 
         internal MunicipalityTaxDetails FindTaxSchedule (MunicipalityTaxSchedule tax)
         {
+            if (tax == null)
+                throw new ArgumentNullException(nameof(tax));
             return database.FirstOrDefault(t => t.MunicipalitySchedule.Equals(tax));
         }
 
@@ -50,6 +56,8 @@ namespace MunicipalityTaxes
 
         public void UpdateTaxSchedule (MunicipalityTaxDetails tax)
         {
+            if (tax == null)
+                throw new ArgumentNullException(nameof(tax));
             var existing = FindTaxSchedule(tax.MunicipalitySchedule);
             if (existing == null)
                 throw new InvalidOperationException($"Tax schedule '{tax.MunicipalitySchedule.DebuggerDisplay}' not found, unable to update it.");

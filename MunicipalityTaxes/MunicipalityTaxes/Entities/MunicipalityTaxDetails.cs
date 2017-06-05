@@ -12,9 +12,9 @@ namespace MunicipalityTaxes
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class MunicipalityTaxDetails
     {
-        [DataMember]
+        [DataMember(IsRequired = true, Order = 0)]
         public MunicipalityTaxSchedule MunicipalitySchedule;
-        [DataMember]
+        [DataMember(IsRequired = true, Order = 1)]
         public double TaxAmount;
 
         internal string DebuggerDisplay { get { return MunicipalitySchedule?.DebuggerDisplay + $", {TaxAmount}"; } }
