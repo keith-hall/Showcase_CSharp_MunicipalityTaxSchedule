@@ -55,6 +55,13 @@ My original implemention wouldn't allow:
 
 I since realised that maybe that's a constraint that I assumed, as it is not specifically mentioned in the specification, so I decided to add another Tax Validation class that would remove this restriction, and enable it to be configured in the config file.
 
+The relevant configuration setting is in the `AppSettings` section, with key `ITaxScheduleValidator`, and currently 2 possible values:
+
+- `MunicipalityTaxes.PermissiveDateTaxScheduleValidator` for a less restrictive schedule date validator
+- `MunicipalityTaxes.TaxScheduleValidator` for a more restrictive schedule date validator
+
+Also, the task mentioned that the solution should have it's own database - for simplicity I chose to interpret this loosely, and am using an "in memory database" which could easily be swapped out for another `ITaxStorageProvider` if one was implemented, again using `AppSettings` and you guessed it, the key `ITaxStorageProvider`.
+
 ### Windows Service
 
 Instructions on how to install a Windows Service: https://msdn.microsoft.com/en-us/library/zt39148a(v=vs.110).aspx#BK_Install
@@ -93,7 +100,7 @@ Note that, when calling the web service manually, WCF Test Client expects .NET f
 
 It has been designed so that as long as it parses successfully, even if there are failures when inserting the records, it will show the status of each line item. Although, it is worth noting that the first unexpected failure (i.e. not just that the tax record already exists) will cause it to stop attempting to insert the other records.
 
-To give an example, this can be seen when using a file with the contents:
+To give an example, this can be seen when using a file with the following contents (note the duplication of the yearly schedule):
 
 ```
 Vilnius|Yearly|2016-01-01|0.2
@@ -103,7 +110,7 @@ Vilnius|Daily|2016-01-01|0.1
 Vilnius|Daily|2016-12-25|0.1
 ```
 
-the response is:
+the response is (which shows that line 2 was not inserted, but the others were validated and inserted successfully):
 
 ```xml
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
