@@ -54,3 +54,8 @@ My original implemention wouldn't allow:
 - a Weekly schedule to start not on a Monday
 
 I since realised that maybe that's a constraint that I assumed, as it is not specifically mentioned in the specification, so I decided to add another Tax Validation class that would remove this restriction, and enable it to be configured in the config file.
+
+### Windows Service
+
+Instructions on how to install a Windows Service: https://msdn.microsoft.com/en-us/library/zt39148a(v=vs.110).aspx#BK_Install
+The startup type for this MunicipalityTaxes Windows Service is set to Manual by default, so you'll need to start it manually after installing. :)
